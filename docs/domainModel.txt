@@ -1,0 +1,54 @@
+@startuml
+Object Class
+Class : Name
+
+Object Function
+Function : Name
+
+Object Interface
+Interface : Name
+
+Object Field
+Field : Name
+
+Object Text
+
+Text --> Class : Represents
+Text --> Function : Represents
+Text --> Interface : Represents
+Text --> Field : Represents
+
+Object Section
+Section : Type
+
+Section --> Text : Contains
+
+Object Box
+Box : Style
+
+Box --> Section : Holds
+
+Object Icon
+Icon : Style
+Icon : Color
+
+Icon --> Text : Precedes
+
+Object Visibility
+
+Icon --> Visibility : Represents
+
+Object Arrow
+Arrow : Style
+
+Arrow --> Box : Connects
+
+Object Relationship
+
+Arrow --> Relationship : Represents
+
+Object Package
+
+Box --> Package : Represents
+Package : Name
+@enduml

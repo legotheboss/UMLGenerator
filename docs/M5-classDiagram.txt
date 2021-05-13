@@ -1,0 +1,250 @@
+@startuml
+package presentation {
+
+class Main {
++main(args : String) : void
+}
+
+class UMLsvgCreator {
+-UMLtextLocation : String
+-diagramLocation : String
++writeToFile(str : String) : void
++createSVGfromUML() : void
+}
+}
+
+package domain {
+interface IController {
++retrieve() : MegaContainer
++execute() : void
+}
+interface IDiagram {
++concatenateFinalString() : String
+}
+
+interface IPattern implements IDiagram {
++concatenateFinalString() : String
+}
+
+interface IUMLDiagram implements IDiagram {
++fillInterfaceMethods() : void
++fillFields() : void
++fillArgs() : void
++fillClassMethods() : void
++createRelation() : void
++createClass() : void
++createInterface() : void
+}
+
+interface IParser {
++generateIncompatible() : void
++checkCompatibility() : boolean
+}
+
+class DesignPrincipleViolation implements IPattern{
++concatenateFinalString(MegaContainer MEGA) : String
+}
+
+class DecoratorPattern implements IPattern{
++concatenateFinalString(MegaContainer MEGA) : String
+}
+
+class AdapterPattern implements IPattern{
++concatenateFinalString(MegaContainer MEGA) : String
+}
+
+class AccessParser extends ParserDecorator {
+-incompatible : HashSet<String>
+-level : int
+}
+class BasicParser implements IParser {
+}
+class BlackListParser extends ParserDecorator {
+-incompatible : HashSet<String>
+-filename : String
+}
+class ClassParser extends ParserDecorator {
+-className : String
+}
+class OutputParser extends ParserDecorator {
+-incompatible : HashSet<String>
+-fileName : String
+}
+class ParserDecorator implements IParser {
++parser Parser parser
+}
+class RecursiveParser extends ParserDecorator {
+-incompatible : HashSet<String>
+~enabled : boolean
+}
+class WhiteListParser extends ParserDecorator {
+-incompatible : HashSet<String>
+-fileName : String
+}
+class MethodParser extends ParserDecorator {
+-incompatible : HashSet<String>
+-methodName : String
+}
+class InterfaceParser extends ParserDecorator {
+-incompatible : HashSet<String>
+-interfaceName : String
+}
+class MethodParser extends ParserDecorator {
+~String methodName
+~HashSet<String> argTypes
+~String className
+parseMethodName(String input) : void
+}
+class RecursiveMethodParser extends ParserDecorator {
+-incompatible : HashSet<String>
+~level : int
+generateIncompatible() : void
+level() : int
+}
+class PatternParser extends ParserDecorator {
+-incompatible : HashSet<String>
+~type : String
+generateIncompatible() : void
+}
+
+class DiagramUMLforPlantUML implements IUMLDiagram {
+-parser : IParser
+-visibilityAccess : int
+-finalString : StringBuilder
+-MEGA : MegaContainer
+-accessLevelSymbol(accessLevel : int) : String
++concatenateFinalString(MEGA : MegaContainer) : String
++createCollection(collection : HashSet<String>) : void
+}
+
+class SequenceUMLforPlantUML implements ISequenceDiagram {
+-visibilityAccess = 4;
+-MegaContainer MEGA;
+-IParser parser;
+-HashMap<String, String> relationMap
+-int recurse = 0;
+-String className;
+-String methodName;
+-ArrayList<String> arguments
++populateRelationMap()
++concatenateFinalString(MegaContainer MEGA) : String
++concatRecurse(String className) : void
+}
+
+interface ISequenceDiagram extends IDiagram {
+}
+
+class ConstructParser {
+-outputFilename : String
+-controllerType : String
+-bpDiagram : IParser
+-bpProcessor : IParser
+-diagramType : String
+-inputArgs : HashSet<String>
+-DEFAULT_OUTNAME : String
+-makeDiagram() : IDiagram
+-makeController() : IController
++beginParsing() : void
++getOutputFileName() : String
+}
+
+class ASMController implements IController {
+-input : IParser
+-recursion : boolean
+-classNames : List<String>
+-blacklist : HashSet<String>
+-blackListFile : String
+-reader : ClassReader
+-classNode : ClassNode
+-MEGA : MegaContainer
+-parseInterface(current : String) : void
+-createAccessLevel(accessLevel : int) : int
+-methodArgumentGetter(methods : List<MethodNode>) : HashMap<String,Method>
+-createType(type : String) : String
+-recursiveMethod(currentClass : String) : void
+-deconstructSignature(signature : String) : HashSet<String>
+-containedInBlacklist(className : String) : boolean
+-parseRelations() : void
+-parseClass(givenClass : String) : void
+-nonRecursiveMethod(currentClass : String) : void
+-parseInterfaces(givenClass : String) : void
+}
+}
+
+
+package data_source {
+interface IContainer {
++getName() : String
+}
+class Field implements IContainer {
++type : String
++holdingTypes : HashSet<String>
++accessLevel : int
++packageType : String
++name : String
+}
+class Class implements IContainer {
++isAbstract : boolean
++superclass : String
++fields : HashSet<Field>
++methods : HashMap<String,Method>
++inherited : HashSet<String>
++name : String
++accessLevel : int
+}
+class MegaContainer implements IContainer {
++relations : HashMap<String,Relation>
++classes : HashMap<String,Class>
++interfaces : HashMap<String,Interface>
+}
+class Argument implements IContainer {
++holdingTypes : HashSet<String>
++name : String
++packageType : String
++type : String
++toString() : String
+}
+class Relation implements IContainer {
++classFrom : IContainer
++name : String
++type : String
++accessLevel : int
++classTo : IContainer
+}
+class LogWriter implements IContainer {
+-location : String
++writeText(text : String) : void
+}
+class Interface implements IContainer {
++accessLevel : int
++name : String
++inherited : HashSet<String>
++methods : HashMap<String,Method>
+}
+class Method implements IContainer {
++holdingTypes : HashSet<String>
++localVariableTypes : HashSet<String>
++accessLevel : int
++name : String
++returnType : String
++parameters : HashSet<Argument>
+}
+}
+
+ConstructParser..>ASMController
+Main..>UMLsvgCreator
+ConstructParser-->IParser
+DiagramUMLforPlantUML-->IParser
+DesignPrincipleViolation-->IParser
+DecoratorPattern-->IParser
+AdapterPattern-->IParser
+UMLsvgCreator..>LogWriter
+ConstructParser..>LogWriter
+ConstructParser..>IDiagram
+ASMController..>IContainer
+Main..>ConstructParser
+ConstructParser..>IController
+ConstructParser..>DiagramUMLforPlantUML
+ConstructParser..>IPattern
+SequenceUMLforPlantUML-->IParser
+@enduml

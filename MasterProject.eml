@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component inheritJdk="true">
+	<exclude-output/>
+	<contentEntry url="file://$MODULE_DIR$"/>
+	<lib name="ASMTreeTutorial-all.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/MasterProject/lib/ASMTreeTutorial-all.jar!/"/>
+	</lib>
+	<lib name="coffee.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/MasterProject/lib/coffee.jar!/"/>
+	</lib>
+	<lib name="HW3.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/MasterProject/lib/HW3.jar!/"/>
+	</lib>
+	<lib name="jscheme-7.2.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/MasterProject/lib/jscheme-7.2.jar!/"/>
+	</lib>
+	<lib name="M2examples.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/MasterProject/lib/M2examples.jar!/"/>
+	</lib>
+	<lib name="schemeparser.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/MasterProject/lib/schemeparser.jar!/"/>
+	</lib>
+	<lib name="plantuml.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/MasterProject/lib/plantuml.jar!/"/>
+	</lib>
+</component>
